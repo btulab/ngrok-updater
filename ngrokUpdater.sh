@@ -1,15 +1,18 @@
 #!/bin/bash
 
-page="btulab.github.io" #Path to html page to update
+directory="btulab.github.io" #directory where the webpage resides
+page="lully.html" #page to edit
 
-../venv/bin/octoprint &
-./ngrok http 5000 &
+open -a Terminal.app octoprint.sh
+open -a Terminal.app ngrok.sh
+
 sleep 1
 sedStart='s_http:\/\/.*?io\/_'
 url="$(curl http://localhost:4040/inspect/http | egrep -o 'http?://[^ ]+' | cut -d "\\" -f 1)"
 url="$url/"
 sedEnd='_g'
 
+cd $directory
 sed -i.bak -E $sedStart$url$sedEnd $page
 
 git add --all
